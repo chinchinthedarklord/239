@@ -1,0 +1,46 @@
+first of all we need to kreate type 
+	object( m (mass) , n (name) , cl (color) , x_1 , x_2 , x_3 , v_1 , v_2 , v_3 )
+	radius of object is ( m )^( 1 / 3 ) / 2 ( here and below is R_n ) 
+---------------------------------------------------------------------------------------------------------------------------
+calculation of "obj"'s movement:
+
+r( obj_1, obj_2 ):
+	r = sqrt( sum for all i from 1 to n ( ( obj_1[ x_i ] - obj_2[ x_i ] ) ^ 2 ) )
+
+for all axises from x_1 to x_n
+	
+	f( x ): 
+		for all obj_i
+			f += m * ( obj[ x_i ] - obj_i[ x_i ] ) / r() ^ 3
+
+	during the transition from t to t + dt 
+
+		p_1 = dt * f( x_i )
+		q_1 = dt * v_i
+
+		p_2 = dt * f( x_i + q_1 / 2 )
+		q_2 = dt * ( v_i + p_1 / 2 )
+			
+		p_3 = dt * f( x_i + q_2 / 2 )
+		q_3 = dt * ( v_i + p_2 / 2 )
+
+		p_4 = dt * f( x_i + q_3 )
+		q_4 = dt * ( v_i + p_3 )
+
+		v_i += ( p_1 + 2 * p_2 + 2 * p_3 + p_4 ) / 6
+		x_i += ( q_1 + 2 * q_2 + 2 * q_3 + q_4 ) / 6
+------------------------------------------------------------------------------------------------------------------------
+check for collapse:
+
+for all obj_i for which obj[ m ] >= obj_j[ m ]
+	if ( R_obj[n] > r( obj , obj_j ) ) or ( R_obj_j[n] > r( obj , obj_j ) ) then
+
+		for all axises from x_1 to x_n
+			obj[ x_i ] = (obj[ m ] * obj[ x_i ] + obj_j[ m ] * obj_j[ x_i ]) / ( obj[ m ] + obj_j[ m ] )
+
+		for all velocities from v_1 to v_n
+			obj[ v_i ] = (obj[ m ] * obj[ v_i ] + obj_j[ m ] * obj_j[ v_i ]) / ( obj[ m ] + obj_j[ m ] )
+
+		obj[ n ] += obj_j[ n ]
+		obj[ m ] += obj_j[ m ]
+		delete obj_j
