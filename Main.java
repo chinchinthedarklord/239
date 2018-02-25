@@ -8,7 +8,7 @@ public class Main {
         JFrame frame = new JFrame();
 
         frame.setTitle("Gravity project");
-        frame.setSize(new Dimension(600, 400));
+        frame.setSize(new Dimension(1000, 1000));
         frame.setLocationRelativeTo(null);
         frame.setLayout(new GridBagLayout());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
